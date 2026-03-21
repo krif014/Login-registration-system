@@ -69,7 +69,7 @@ Apache Server
 XAMPP / WAMP / Laragon (recommended)
 ⚙️ Installation Guide
 1️⃣ Clone the Repository
-git clone https://github.com/YOUR-USERNAME/krif-login.git
+git clone https://github.com/MY-USERNAME/MY-REPO-NAME.git
 
 Move the project into your server directory:
 
