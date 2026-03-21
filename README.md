@@ -35,8 +35,8 @@ This project demonstrates how user authentication works in a real-world web appl
 <img src="./Login.png" width="45%" />
 </a>
 <br/>
-<a href="./dashboard.png">
-<img src="./dashboard.png" width="45%" />
+<a href="./Dashboard.png">
+<img src="./Dashboard.png" width="45%" />
 </a>   
 <a href="./database.png">
 <img src="./database.png" width="45%" />
