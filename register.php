@@ -4,21 +4,23 @@ require 'db.php';
 
 $message = "";
 
-if (isset($_POST['login'])) {
+if (isset($_POST['register'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->execute([$username]);
-    $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['logged_in'] = true;
-        $_SESSION['username'] = $user['username'];
-        header("Location: dashboard.php");
-        exit;
+    if ($stmt->rowCount() > 0) {
+        $message = "Username already exists!";
     } else {
-        $message = "Invalid username or password!";
+        $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        if ($stmt->execute([$username, $hashed_password])) {
+            $message = "Registration successful! <a href='login.php'>Login</a>";
+        } else {
+            $message = "Registration failed!";
+        }
     }
 }
 ?>
@@ -27,7 +29,7 @@ if (isset($_POST['login'])) {
 <html>
 
 <head>
-    <title>Login</title>
+    <title>Register</title>
     <style>
         body {
             height: 100vh;
@@ -72,18 +74,18 @@ if (isset($_POST['login'])) {
 <body>
 
     <div class="box">
-        <h2>Login</h2>
+        <h2>Register</h2>
 
         <form method="POST">
             <input type="text" name="username" required placeholder="Username">
             <input type="password" name="password" required placeholder="Password">
-            <input type="submit" name="login" value="Login" class="btn">
+            <input type="submit" name="register" value="Register" class="btn">
         </form>
 
         <p class="message"><?php echo $message; ?></p>
 
         <p style="text-align:center;">
-            <a href="register.php">Create account</a>
+            <a href="login.php">Back to login</a>
         </p>
     </div>
 
