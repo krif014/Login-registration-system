@@ -1,31 +1,35 @@
 <?php
 session_start();
 require 'db.php';
-$message="";
-if(isset($_POST['login'])){
+$message = "";
+if (isset($_POST['register'])) {
     $username = $_POST['username'];
-    $password = $_POST['password']; 
-    
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?"); 
+    $password = $_POST['password'];
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->execute([$username]);
-    $user = $stmt->fetch();
-    if($user && password_verify($password, $user['password'])){
-        $_SESSION['logged_in'] = true;
-        $_SESSION['username'] = $user['username'];
-        header("Location: dashboard.php");
-         exit; 
-         } else { 
-            $message = "Invalid username or password!"; }
+    if ($stmt->rowCount() > 0) {
+        $message = "Username already exists!";
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        if ($stmt->execute([$username, $hashed_password])) {
+            $message = "Registration successful!You can now <a href='login.php'>login</a>.";
+        } else {
+            $message = "Registration failed! Please try again.";
+        }
     }
+}
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Login</title>
+    <title>Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #4e73df, #1cc88a);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,54 +37,52 @@ if(isset($_POST['login'])){
             margin: 0;
         }
 
-        .login-box {
+        .container {
             background: #ffffff;
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             width: 350px;
             text-align: center;
         }
 
         h2 {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #333;
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             outline: none;
             transition: 0.3s;
-            font-size: 14px;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 6px rgba(102, 126, 234, 0.4);
+            border-color: #4e73df;
+            box-shadow: 0 0 5px rgba(78, 115, 223, 0.5);
         }
 
         input[type="submit"] {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin-top: 15px;
-            background: #667eea;
+            background: #4e73df;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             color: white;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 15px;
         }
 
         input[type="submit"]:hover {
-            background: #5563c1;
+            background: #2e59d9;
         }
 
         .message {
@@ -88,40 +90,23 @@ if(isset($_POST['login'])){
             color: red;
             font-weight: bold;
         }
-
-        .register-link {
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .register-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
+
 <body>
 
-<div class="login-box">
-    <h2>Welcome Back</h2>
+    <div class="container">
+        <h2>Create Account</h2>
 
-    <form method="POST" action="">
-        <input type="text" name="username" placeholder="Enter username" required>
-        <input type="password" name="password" placeholder="Enter password" required>
-        <input type="submit" name="login" value="Login">
-    </form>
+        <form method="POST" action="">
+            <input type="text" name="username" placeholder="Enter username" required>
+            <input type="password" name="password" placeholder="Enter password" required>
+            <input type="submit" name="register" value="Register">
+        </form>
 
-    <p class="message"><?php echo $message; ?></p>
-
-    <div class="register-link">
-        Don't have an account? <a href="register.php">Register</a>
+        <p class="message"><?php echo $message; ?></p>
     </div>
-</div>
 
 </body>
+
 </html>
