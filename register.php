@@ -1,26 +1,20 @@
 <?php
-session_start();
 require 'db.php';
 
 $message = "";
 
 if (isset($_POST['register'])) {
+
     $username = $_POST['username'];
-    $password = $_POST['password'];
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->execute([$username]);
+    $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
 
-    if ($stmt->rowCount() > 0) {
+    try {
+        $stmt->execute([$username, $password]);
+        $message = "Account created!";
+    } catch (Exception $e) {
         $message = "Username already exists!";
-    } else {
-        $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-        if ($stmt->execute([$username, $hashed_password])) {
-            $message = "Registration successful! <a href='login.php'>Login</a>";
-        } else {
-            $message = "Registration failed!";
-        }
     }
 }
 ?>
@@ -32,41 +26,38 @@ if (isset($_POST['register'])) {
     <title>Register</title>
     <style>
         body {
-            height: 100vh;
-            background: #111;
+            background: #000;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial;
+            height: 100vh;
+            font-family: Arial
         }
 
         .box {
-            background: #fff;
-            padding: 40px;
-            width: 350px;
-            border-radius: 10px;
-        }
-
-        h2 {
-            text-align: center;
+            background: #111;
+            padding: 30px;
+            width: 300px;
+            border: 1px solid #fff
         }
 
         input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
+            background: #000;
+            border: 1px solid #fff;
+            color: #fff
         }
 
-        .btn {
-            background: black;
-            color: white;
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #fff;
+            color: #000;
             border: none;
-            cursor: pointer;
-        }
-
-        .message {
-            color: red;
-            text-align: center;
+            cursor: pointer
         }
     </style>
 </head>
@@ -77,16 +68,14 @@ if (isset($_POST['register'])) {
         <h2>Register</h2>
 
         <form method="POST">
-            <input type="text" name="username" required placeholder="Username">
-            <input type="password" name="password" required placeholder="Password">
-            <input type="submit" name="register" value="Register" class="btn">
+            <input name="username" placeholder="Username" required>
+            <input name="password" type="password" placeholder="Password" required>
+            <button name="register">Create</button>
         </form>
 
-        <p class="message"><?php echo $message; ?></p>
+        <p><?= $message ?></p>
 
-        <p style="text-align:center;">
-            <a href="login.php">Back to login</a>
-        </p>
+        <a href="login.php" style="color:white;">Login</a>
     </div>
 
 </body>
