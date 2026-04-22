@@ -1,109 +1,99 @@
-<?php
-session_start();
-require 'db.php';
-$message = "";
-if (isset($_POST['register'])){
-   $username = $_POST['username'];
-   $password = $_POST['password'];
-   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-   
-   $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-   $stmt->execute([$username]);
-if($stmt->rowCount() > 0){
-   $message = "Username already exists!";  
-}else{
-    $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-if($stmt->execute([$username, $hashed_password])){
-    $message = "Registration successful!You can now <a href='login.php'>login</a>.";
-} else {
-    $message = "Registration failed! Please try again.";
-}
-}
-}
-?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Register</title>
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
+        }
+
+        body {
+            height: 100vh;
+            background: #111;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
         }
 
-        .container {
-            background: #ffffff;
+        .box {
+            background: #fff;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             width: 350px;
-            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         h2 {
-            margin-bottom: 20px;
-            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
         }
 
-        input[type="text"],
-        input[type="password"] {
+        input {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 12px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
             outline: none;
-            transition: 0.3s;
         }
 
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            border-color: #4e73df;
-            box-shadow: 0 0 5px rgba(78, 115, 223, 0.5);
+        input:focus {
+            border-color: #000;
         }
 
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 15px;
-            background: #4e73df;
+        .btn {
+            background: #000;
+            color: #fff;
             border: none;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            font-weight: bold;
         }
 
-        input[type="submit"]:hover {
-            background: #2e59d9;
+        .btn:hover {
+            background: #333;
         }
 
         .message {
-            margin-top: 15px;
+            margin-top: 10px;
             color: red;
+            text-align: center;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .link a {
+            color: #000;
+            text-decoration: none;
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Create Account</h2>
+    <div class="box">
+        <h2>Register</h2>
 
-    <form method="POST" action="">
-        <input type="text" name="username" placeholder="Enter username" required>
-        <input type="password" name="password" placeholder="Enter password" required>
-        <input type="submit" name="register" value="Register">
-    </form>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" name="register" value="Register" class="btn">
+        </form>
 
-    <p class="message"><?php echo $message; ?></p>
-</div>
+        <p class="message"><?php echo $message; ?></p>
+
+        <div class="link">
+            <a href="login.php">Back to login</a>
+        </div>
+    </div>
 
 </body>
+
 </html>
