@@ -5,17 +5,33 @@ $message = "";
 $success = false;
 
 if (isset($_POST['register'])) {
-    $username = $_POST['username'];
-    $email    = isset($_POST['email']) ? $_POST['email'] : '';
+
+    $username = trim($_POST['username']);
+    $email    = trim($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-    try {
-        $stmt->execute([$username, $password]);
-        $message = "Account created! You can now login.";
-        $success = true;
-    } catch (Exception $e) {
-        $message = "Username already exists!";
+    // Check if username or email already exists
+    $check = $pdo->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+    $check->execute([$username, $email]);
+
+    if ($check->rowCount() > 0) {
+
+        $message = "Username or email already exists!";
+    } else {
+
+        // Insert new user
+        $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+
+        try {
+
+            $stmt->execute([$username, $email, $password]);
+
+            $message = "Account created successfully!";
+            $success = true;
+        } catch (Exception $e) {
+
+            $message = "Something went wrong.";
+        }
     }
 }
 ?>
