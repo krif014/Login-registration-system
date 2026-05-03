@@ -1,8 +1,8 @@
 <?php 
 $host = "localhost";
-$db = "krif-login";
+$db = "";
 $user = "root";
-$password = "k200808k";
+$password = "";
 $charset = "utf8mb4";
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options =[
