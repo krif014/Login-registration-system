@@ -15,7 +15,7 @@ if (isset($_POST['login'])) {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
+        $_SESSION['email'] = $user['email'];
         header("Location: dashboard.php");
         exit;
     } else {
@@ -324,23 +324,7 @@ if (isset($_POST['login'])) {
 
 <body>
 
-    <!-- Welcome splash panel -->
-    <div class="splash-panel">
-        <!-- Globe SVG art -->
-        <svg style="width:130px;height:130px;margin-bottom:28px;opacity:.9;" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="70" cy="70" r="55" stroke="white" stroke-width="2" stroke-dasharray="4 6" opacity="0.3" />
-            <circle cx="70" cy="70" r="38" stroke="white" stroke-width="1.5" opacity="0.5" />
-            <ellipse cx="70" cy="70" rx="20" ry="38" stroke="white" stroke-width="1.5" opacity="0.5" />
-            <line x1="32" y1="70" x2="108" y2="70" stroke="white" stroke-width="1.5" opacity="0.4" />
-            <line x1="70" y1="32" x2="70" y2="108" stroke="white" stroke-width="1.5" opacity="0.4" />
-            <circle cx="70" cy="70" r="6" fill="white" opacity="0.9" />
-            <path d="M55 45 Q70 30 85 45" stroke="white" stroke-width="1.5" fill="none" opacity="0.6" />
-            <path d="M40 75 Q70 110 100 75" stroke="white" stroke-width="1.5" fill="none" opacity="0.4" />
-        </svg>
-        <h1>Traveling has never been easier</h1>
-        <p>Save time on your journey by booking everything in one place.</p>
-        <button class="btn btn-ghost" onclick="window.location='register.php'">Signup</button>
-    </div>
+
 
     <!-- Login card -->
     <div class="card">
