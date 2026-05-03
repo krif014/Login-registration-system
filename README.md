@@ -1,89 +1,92 @@
-# 🔐 PHP Login & Registration System
+🔐 PHP Login, Registration & User Management System (CRUD API Included)
 
-A simple and secure authentication system built using **PHP**, **MySQL**, **PDO**, **sessions**, and **password hashing**.
+A modern PHP + MySQL authentication system featuring:
 
-This project demonstrates how user authentication works in a real-world web application.
+User registration & login
+Secure password hashing
+Session-based authentication
+Protected dashboard
+Full REST-like CRUD API for users
+Responsive UI dashboard
 
----
+This project demonstrates how real-world authentication systems and user management APIs work in backend applications.
 
-## 🚀 Tech Stack
+🚀 Tech Stack
 
-![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-00758F?style=for-the-badge&logo=mysql&logoColor=white)
-![Apache](https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=apache&logoColor=white)
-![PDO](https://img.shields.io/badge/PDO-Secure%20DB-orange?style=for-the-badge)
+✨ Features
+🔐 Authentication System
+User Registration
+Secure Login
+Password Hashing (password_hash)
+Session-based authentication
+Logout system
+📊 Dashboard
+Protected user dashboard
+Displays all registered users
+Search functionality
+Responsive UI
+⚙️ CRUD API (NEW)
+Get all users
+Get single user
+Create user
+Update user
+Delete user
+🧠 API Endpoints
+📥 GET ALL USERS
+GET /Api.php
+📥 GET SINGLE USER
+GET /Api.php?id=1
+➕ CREATE USER
+POST /Api.php
+{
+  "username": "john",
+  "email": "<john@gmail.com>",
+  "password": "123456"
+}
+✏️ UPDATE USER
+PUT /Api.php
+{
+  "id": 1,
+  "username": "john_updated",
+  "email": "<newmail@gmail.com>"
+}
+❌ DELETE USER
+DELETE /Api.php?id=1
+🖼️ Project Preview
+<p align="center"> <a href="./Register.png"> <img src="./Register.png" width="45%" /> </a> <a href="./Login.png"> <img src="./Login.png" width="45%" /> </a> </p> <p align="center"> <a href="./Dashboard.png"> <img src="./Dashboard.png" width="45%" /> </a> <a href="./database.png"> <img src="./database.png" width="45%" /> </a> </p>
 
----
+👉 Includes:
 
-## ✨ Features
-
-- 🔑 User Registration  
-- 🔐 Secure Login System  
-- 🛡️ Password Hashing (`password_hash`)  
-- 🔒 Session-Based Authentication  
-- 📄 Protected Dashboard  
-- 🚪 Secure Logout  
-
----
-## 🖼️ Image Preview
-
-<p align="center">
- <a href="./Register.png">
-  <img src="./Register.png" width="45%" />
- </a> 
-<a href="./Login.png">
-<img src="./Login.png" width="45%" />
-</a>
-<br/>
-<a href="./Dashboard.png">
-<img src="./Dashboard.png" width="45%" />
-</a>   
-<a href="./database.png">
-<img src="./database.png" width="45%" />
-</a>
-</p>
-
-👉 These images show:
-- Registration page  
-- Login page  
-- Dashboard  
-- Database structure  
-
----
-
-
-## 📁 Project Structure
-
-```text id="m2v9qp"
+Registration page
+Login page
+Dashboard UI
+Database structure
+API system
+📁 Project Structure
 krif-login/
 │
-├── db.php           # Database connection (PDO)
-├── register.php     # User registration
-├── login.php        # User login
-├── dashboard.php    # Protected page
-└── logout.php       # Logout and destroy session
+├── db.php          # Database connection (PDO)
+├── register.php    # User registration
+├── login.php       # User login
+├── dashboard.php   # Protected dashboard
+├── logout.php      # Logout system
+├── Api.php         # REST CRUD API
+│
+└── assets/
 📋 Requirements
-PHP 7.4 or higher
+PHP 7.4+
 MySQL
 Apache Server
-XAMPP / WAMP / Laragon (recommended)
-⚙️ Installation Guide
-1️⃣ Clone the Repository
-git clone https://github.com/MY-USERNAME/MY-REPO-NAME.git
-
-Move the project into your server directory:
-
-C:\xampp\htdocs\
-2️⃣ Start Server
-
-Start:
-
+XAMPP / WAMP / Laragon
+⚙️ Installation
+1️⃣ Clone Project
+git clone <https://github.com/YOUR-USERNAME/YOUR-REPO.git>
+2️⃣ Move to server
+C:\xampp\htdocs\krif-login
+3️⃣ Start server
 Apache
 MySQL
-3️⃣ Create Database
-
-Run this in phpMyAdmin or MySQL:
-
+4️⃣ Create database
 CREATE DATABASE krif_login;
 
 USE krif_login;
@@ -91,71 +94,47 @@ USE krif_login;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100),
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-4️⃣ Configure Database
-
-Open db.php and update:
-
-$host = 'localhost';
-$db = 'krif_login';
-$user = 'root';
-$password = '';
-5️⃣ Run the Application
-
-Open in your browser:
-
-http://localhost/krif-login/register.php
-
-👉 Register a new user
-👉 Then login:
-
-http://localhost/krif-login/login.php
+5️⃣ Run project
+<http://localhost/krif-login/register.php>
 🔄 How It Works
-📝 Registration
-Form data sent via $_POST
-Password is securely hashed using password_hash()
-User data stored in MySQL
+📝 Register
+User fills form
+Password is hashed
+Data stored in MySQL
 🔐 Login
-Credentials are verified
-Password checked using password_verify()
-Session is created
-User is redirected to dashboard
+Credentials checked
+Password verified
+Session created
 📊 Dashboard
-Protected page
-Only accessible if user is logged in
-Redirects to login if not authenticated
-🚪 Logout
-Session is destroyed
-User is redirected to login page
+Only logged-in users can access
+Displays all users from database
+⚙️ API
+Provides full CRUD access to users
+Can be used with frontend apps (React, JS, etc.)
 🛡️ Security Features
-Password hashing 🔐
-Prepared statements (PDO)
-Session-based authentication
-Protection against unauthorized access
-🧠 Learning Objectives
-
-This project helps you understand:
-
-PHP backend development
-MySQL database operations
-User authentication systems
-Session management
-Secure password handling
+Password hashing (password_hash)
+Prepared statements (PDO & MySQLi)
+Session authentication
+Input escaping
+Protected dashboard
+🚀 Future Improvements
+🔐 Role-based access (Admin / User)
+🧾 Soft delete system
+📊 Admin analytics dashboard
+🔑 JWT authentication (API upgrade)
+📱 React / frontend integration
+🔍 Pagination & search API
 🤝 Contributing
-
-If you like this project:
-
-⭐ Star this repository
+⭐ Star this repo
 🍴 Fork it
 📥 Submit pull requests
-
-Contributions are welcome!
-
 📄 License
 
-This project is open-source and free to use for educational purposes.
+Free for educational use.
 
 👤 Author
 

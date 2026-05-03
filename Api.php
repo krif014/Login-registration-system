@@ -5,9 +5,9 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 
 $host = 'localhost';
-$db = 'krif-login';
+$db = '';
 $user = 'root';
-$pass = 'k200808k';
+$pass = '';
 
 $conn = new mysqli($host, $user, $pass, $db);
 
