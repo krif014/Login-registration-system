@@ -62,24 +62,30 @@ krif-login/
 ├── login.php        # User login
 ├── dashboard.php    # Protected page
 └── logout.php       # Logout and destroy session
+
 📋 Requirements
+
 PHP 7.4 or higher
 MySQL
 Apache Server
 XAMPP / WAMP / Laragon (recommended)
+
 ⚙️ Installation Guide
+
 1️⃣ Clone the Repository
 git clone https://github.com/MY-USERNAME/MY-REPO-NAME.git
 
 Move the project into your server directory:
 
 C:\xampp\htdocs\
+
 2️⃣ Start Server
 
 Start:
 
 Apache
 MySQL
+
 3️⃣ Create Database
 
 Run this in phpMyAdmin or MySQL:
@@ -94,6 +100,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 4️⃣ Configure Database
 
 Open db.php and update:
@@ -102,6 +109,7 @@ $host = 'localhost';
 $db = 'krif_login';
 $user = 'root';
 $password = '';
+
 5️⃣ Run the Application
 
 Open in your browser:
@@ -112,28 +120,40 @@ http://localhost/krif-login/register.php
 👉 Then login:
 
 http://localhost/krif-login/login.php
+
 🔄 How It Works
+
 📝 Registration
+
 Form data sent via $_POST
 Password is securely hashed using password_hash()
 User data stored in MySQL
+
 🔐 Login
+
 Credentials are verified
 Password checked using password_verify()
 Session is created
 User is redirected to dashboard
+
 📊 Dashboard
+
 Protected page
 Only accessible if user is logged in
 Redirects to login if not authenticated
+
 🚪 Logout
+
 Session is destroyed
 User is redirected to login page
 🛡️ Security Features
+
 Password hashing 🔐
+
 Prepared statements (PDO)
 Session-based authentication
 Protection against unauthorized access
+
 🧠 Learning Objectives
 
 This project helps you understand:
@@ -143,6 +163,7 @@ MySQL database operations
 User authentication systems
 Session management
 Secure password handling
+
 🤝 Contributing
 
 If you like this project:
